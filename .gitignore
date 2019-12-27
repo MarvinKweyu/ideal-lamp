@@ -139,4 +139,4 @@ dmypy.json
 .nfs*
 
 # End of https://www.gitignore.io/api/linux,django
-n
+ngeckodriver.log
