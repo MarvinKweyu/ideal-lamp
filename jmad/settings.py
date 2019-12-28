@@ -37,6 +37,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # third
+    'django_nose',
+
+    # local
     'solos.apps.SolosConfig',
 ]
 
@@ -119,3 +123,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+# sample run with nosetests
+# TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
+
+# attempt at redgreen
+TEST_RUNNER = "redgreenunittest.django.runner.RedGreenDiscoverRunner"
