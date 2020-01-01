@@ -1,13 +1,35 @@
 from django.test import LiveServerTestCase
 from selenium import webdriver
+from solos.models import Solo
 
 
 class StudentTestCase(LiveServerTestCase):
+    # using LiveServerTestCase is an extension of TestCase that allows 
+    # the browser to launch as an addition
+    """ """
 
     def setUp(self):
         self.browser = webdriver.Firefox()
         # try for at least 2 secs before giving up on finding the element
         self.browser.implicitly_wait(2) 
+
+        self.solo1 = Solo.objects.create(
+            instrument = 'saxophone',
+            artist = 'John Coltrane',
+            track = 'My Favourite Things'
+        )
+
+        self.solo2 = Solo.objects.create(
+            instrument='saxophone',
+            artist='Cannonball Addreley',
+            track='All blues'
+        )
+
+        self.solo3 = Solo.objects.create(
+            instrument='saxophone',
+            artist='Cannonball Addreley',
+            track='Waltz for Debby'
+        )
     
     def tearDown(self):
         self.browser.quit()
@@ -34,12 +56,12 @@ class StudentTestCase(LiveServerTestCase):
         """
         instrument_input = self.browser.find_element_by_css_selector('input#jmad-instrument')
         self.assertIsNotNone(self.browser.find_element_by_css_selector('label[for="jmad-instrument"]'))        
-        self.assertEqual(instrument_input.get_attribute('placeholder'),'i.e. trumpet')
+        self.assertEqual(instrument_input.get_attribute('placeholder'), 'i.e. trumpet')
 
 
         artist_input = self.browser.find_element_by_css_selector('input#jmad-artist')
         self.assertIsNotNone(self.browser.find_element_by_css_selector('label[for="jmad-artist"]'))
-        self.assertEqual(artist_input.get_attribute('placeholder'),'i.e. Davis')
+        self.assertEqual(artist_input.get_attribute('placeholder'), 'i.e. Davis')
 
 
         """
@@ -54,11 +76,12 @@ class StudentTestCase(LiveServerTestCase):
         So he adds an artist to his search query and gets a more manageable list 
         """
         # notice plural in elements
+        # note that we spooked the search results by implicitl adding three divs of same class in html
         search_results = self.browser.find_elements_by_css_selector('.jmad-search-result')
         self.assertGreater(len(search_results), 2) # assert that he sees too many results
         
         second_artist_input = self.browser.find_element_by_css_selector('input#jmad-artist')
-        second_artist_input.send_keys('Cannonball Adderkey')
+        second_artist_input.send_keys('Cannonball Adderley') # twp search results of same
         self.browser.find_element_by_css_selector('form button').click()
 
         second_search_results = self.browser.find_elements_by_css_selector('.jmad-search-result')

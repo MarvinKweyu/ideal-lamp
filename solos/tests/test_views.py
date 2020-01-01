@@ -8,6 +8,7 @@ class IndexViewTestCase(TestCase):
 
     def setUp(self):
         self.factory = RequestFactory()
+        
         self.drum_solo = Solo.objects.create(
                 instrument = 'drums',
                 artist = 'Rich',
