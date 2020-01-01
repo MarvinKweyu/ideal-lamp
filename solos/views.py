@@ -11,24 +11,12 @@ def index(request):
     if request.GET.keys():
         solos_queryset = Solo.objects.all()
 
-        # if request.GET.get('instrument', None):
-        #     solos_queryset = solos_queryset.filter(
-        #         instrument =request.GET.get(
-        #             'instrument',
-        #             None
-        #         )
-        #     )
-        if request.GET.get('instrument'):
-            solos_queryset = solos_queryset.filter(instrument=request.GET['instrument'])
+        if request.GET.get('instrument', None):
+            solos_queryset = solos_queryset.filter(instrument=request.GET.get('instrument', None))
 
-
-        # if request.GET.get('artist', None):
-        #     solos_queryset = solos_queryset.filter(
-        #         artist = request.GET.get('artist', None)
-        #     )
 
         if request.GET.get('artist', None):
-            solos_queryset = solos_queryset.filter(artist=request.GET['artist'])
+            solos_queryset = solos_queryset.filter(artist=request.GET.get('artist', None))
 
         
         context['solos'] = solos_queryset

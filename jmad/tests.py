@@ -21,18 +21,19 @@ class StudentTestCase(LiveServerTestCase):
 
         self.solo2 = Solo.objects.create(
             instrument='saxophone',
-            artist='Cannonball Addreley',
+            artist='Cannonball Adderley',
             track='All blues'
         )
 
         self.solo3 = Solo.objects.create(
             instrument='saxophone',
-            artist='Cannonball Addreley',
+            artist='Cannonball Adderley',
             track='Waltz for Debby'
         )
     
     def tearDown(self):
         self.browser.quit()
+        
 
     def test_student_find_solos(self):
         """Test that a user can search for solo """
@@ -84,14 +85,15 @@ class StudentTestCase(LiveServerTestCase):
         second_artist_input.send_keys('Cannonball Adderley') # twp search results of same
         self.browser.find_element_by_css_selector('form button').click()
 
+        # ToDo fix error in finding search results
         second_search_results = self.browser.find_elements_by_css_selector('.jmad-search-result')
         self.assertEqual(len(second_search_results), 2)
 
 
-        self.fail("Incomplete Test")
-
         # he clicks the search result
+        second_search_results[0].click()
 
+        self.fail("Incomplete Test")
         """
         The solo page has the title, artist and album for this particular solo 
         """
