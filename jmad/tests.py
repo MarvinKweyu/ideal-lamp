@@ -96,7 +96,8 @@ class StudentTestCase(LiveServerTestCase):
         """
         The solo page has the title, artist and album for this particular solo 
         """
-        import pdb; pdb.set_trace() # stop the test at this point while maintaining the variables
+        # import pdb; pdb.set_trace() # stop the test at this point while maintaining the variables
+
         self.assertEqual(self.browser.current_url,'{}/solos/2/'.format(self.live_server_url))
         self.assertEqual(self.browser.find_element_by_css_selector('#jmad-artist').text, 'Cannonball Adderley')
         self.assertEqual(self.browser.find_element_by_css_selector(

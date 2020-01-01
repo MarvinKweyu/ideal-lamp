@@ -4,23 +4,32 @@ from solos.views import index, SoloDetailView
 from solos.models import Solo
 
 
-class IndexViewTestCase(TestCase):
-
+class SolosBaseTestCase(TestCase):
     def setUp(self):
         self.factory = RequestFactory()
-        
-        self.drum_solo = Solo.objects.create(
-                instrument = 'drums',
-                artist = 'Rich',
-                track = 'Bugle Call Rag'
-            )
 
-        self.bass_solo = Solo.objects.create(
+    @classmethod
+    def setUpClass(cls):
+        # note difference with python2 which would be super(IndexViewTestCase,cls).setUpClass()
+        super().setUpClass() 
+        cls.drum_solo = Solo.objects.create(
+            instrument='drums',
+            artist='Rich',
+            track='Bugle Call Rag'
+        )
+        
+        cls.bass_solo = Solo.objects.create(
             instrument='saxophone',
             artist='Coltrane',
             track='Mr. PC'
         )
+    
 
+
+class IndexViewTestCase(SolosBaseTestCase):
+    """ 
+    Subclass from SolosBaseTestCase for DRY
+    """
     def test_index_view_basic(self):
         """
         Test that the view returns a 200 response and uses
