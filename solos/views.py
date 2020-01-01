@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.shortcuts import render
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 from .models import Solo
 
 # Create your views here.
@@ -23,10 +23,13 @@ def index(request):
         
     return render(request,'solos/index.html', context)
 
-class ListSearchResult(ListView):
-    model = Solo
-    context_object_name = 'solos'
-    template_name = 'solos/index.html'
+# class ListSearchResult(ListView):
+#     model = Solo
+#     context_object_name = 'solos'
+#     template_name = 'solos/index.html'
 
-    def get_queryset(self):
-        pass
+#     def get_queryset(self):
+#         pass
+
+class SoloDetailView(DetailView):
+    pass
