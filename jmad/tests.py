@@ -22,7 +22,7 @@ class StudentTestCase(LiveServerTestCase):
         self.solo2 = Solo.objects.create(
             instrument='saxophone',
             artist='Cannonball Adderley',
-            track='All blues'
+            track='All Blues'
         )
 
         self.solo3 = Solo.objects.create(
