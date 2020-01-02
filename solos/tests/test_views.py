@@ -64,7 +64,7 @@ class IndexViewTestCase(SolosBaseTestCase):
         )
 
 
-class SoloViewTestCase(TestCase):
+class SoloViewTestCase(SolosBaseTestCase):
     def setUp(self):
         self.factory = RequestFactory()
     
@@ -77,7 +77,7 @@ class SoloViewTestCase(TestCase):
         # since view is class based
         response =SoloDetailView.as_view()(
             request,
-            self.drum_solo.pk
+            pk=self.drum_solo.pk
         )
 
         self.assertEqual(response.status_code, 200)
