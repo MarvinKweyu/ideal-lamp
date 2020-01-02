@@ -117,4 +117,4 @@ class StudentTestCase(LiveServerTestCase):
     
 
     def find_search_results(self):
-        return self.browser.find_element_by_css_selector('.jmad-search-result a')
+        return self.browser.find_elements_by_css_selector('.jmad-search-result a')
