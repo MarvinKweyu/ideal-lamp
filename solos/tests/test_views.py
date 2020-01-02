@@ -3,6 +3,11 @@ from django.db.models.query import QuerySet
 from solos.views import index, SoloDetailView
 from solos.models import Solo
 
+"""
+Note that RequestFactory vs self.client.get('/', {'instrument': 'drums'}) 
+depends on the amount of isolation you want your unittest to be run on
+with requestfactory giving more isolation
+"""
 
 class SolosBaseTestCase(TestCase):
     def setUp(self):
@@ -47,10 +52,8 @@ class IndexViewTestCase(SolosBaseTestCase):
         """
         # use self.client instead of RequestFactory 
         # so that we can access response.context dictionary
-        response = self.client.get(
-            '/',
-            {'instrument': 'drums'}
-        )
+        #* using client depends on existence of the URL unlike requestfactory
+        response = self.client.get('/', {'instrument': 'drums'}) 
 
         solos = response.context['solos']
         
@@ -73,6 +76,9 @@ class SoloViewTestCase(SolosBaseTestCase):
         Test that the solo view returns a 200 response, uses
         the correct template and has the correct context
         """
+        #* using request factory is independent of existence of the path and calls the view as a function.
+        #* it may well be get('nonesense/') unless this argument is needed in the view function
+        #* it calls the view as a regular function and tests its effects
         request = self.factory.get('/solos/1/')
         # since view is class based
         response =SoloDetailView.as_view()(
@@ -80,9 +86,9 @@ class SoloViewTestCase(SolosBaseTestCase):
             pk=self.drum_solo.pk
         )
 
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.context_data['solo'].artist, 'Rich')
-
+        self.assertEqual(response.status_code, 200) # check that the drum is in database
+        self.assertEqual(response.context_data['solo'].artist, 'Rich') # check that this drummers' name is correct
+        #  check that the template used for this detail is correct
         with self.assertTemplateUsed('solos/solo_detail.html'):
             # use render since we use the request factory
             response.render()
