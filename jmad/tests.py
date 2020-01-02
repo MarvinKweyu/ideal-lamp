@@ -78,7 +78,7 @@ class StudentTestCase(LiveServerTestCase):
         """
         # notice plural in elements
         # note that we spooked the search results by implicitl adding three divs of same class in html
-        search_results = self.browser.find_elements_by_css_selector('.jmad-search-result')
+        search_results = self.find_search_results()
         self.assertGreater(len(search_results), 2) # assert that he sees too many results
         
         second_artist_input = self.browser.find_element_by_css_selector('input#jmad-artist')
@@ -86,7 +86,7 @@ class StudentTestCase(LiveServerTestCase):
         self.browser.find_element_by_css_selector('form button').click()
 
         # ToDo fix error in finding search results
-        second_search_results = self.browser.find_elements_by_css_selector('.jmad-search-result')
+        second_search_results = self.find_search_results()
         self.assertEqual(len(second_search_results), 2)
 
 
@@ -114,3 +114,7 @@ class StudentTestCase(LiveServerTestCase):
             '#jmad-start-time').text, '2.06')
         self.assertEqual(self.browser.find_element_by_css_selector(
             '#jmad-end-time').text, '4.01')
+    
+
+    def find_search_results(self):
+        return self.browser.find_element_by_css_selector('.jmad-search-result a')
