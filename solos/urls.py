@@ -7,5 +7,6 @@ app_name = 'solos'
 urlpatterns = [
     path('', views.index, name='home'),
     # path('', views.ListSearchResult.as_view(), name='home'),
-    path('solos/<int:pk>/', views.SoloDetailView.as_view()),
+    # path('solos/<int:pk>/', views.SoloDetailView.as_view()),
+    path('recordings/<slug:album>/<slug:track>/<slug:artist>/', views.SoloDetailView.as_view()),
 ]
