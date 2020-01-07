@@ -42,6 +42,7 @@ INSTALLED_APPS = [
 
     # local
     'solos.apps.SolosConfig',
+    'albums.apps.AlbumsConfig',
 ]
 
 MIDDLEWARE = [

@@ -2,6 +2,7 @@ from django.test import TestCase, RequestFactory
 from django.db.models.query import QuerySet
 from solos.views import index, SoloDetailView
 from solos.models import Solo
+from albums.models import Album, Track
 
 """
 Note that RequestFactory vs self.client.get('/', {'instrument': 'drums'}) 
@@ -10,6 +11,7 @@ with requestfactory giving more isolation
 """
 
 class SolosBaseTestCase(TestCase):
+    
     def setUp(self):
         self.factory = RequestFactory()
 
@@ -17,16 +19,39 @@ class SolosBaseTestCase(TestCase):
     def setUpClass(cls):
         # note difference with python2 which would be super(IndexViewTestCase,cls).setUpClass()
         super().setUpClass() 
+        cls.no_funny_hats = Album.objects.create(
+            name='No Funny Hats',
+            slug = 'no-funny-hats'
+        )
+
+        cls.bugle_call_rag = Track.objects.create(
+            name='Bugle Call Rag',
+            slug = 'bugle-call-rag',
+        )
+        
         cls.drum_solo = Solo.objects.create(
             instrument='drums',
             artist='Rich',
-            track='Bugle Call Rag'
+            track=cls.bugle_call_rag,
+            slug='rich'
         )
         
+        cls.giant_steps = Album.objects.create(
+            name='Giant Steps',
+            slug='giant-steps'
+        )
+
+        cls.mr_pc = Track.objects.create(
+            name='Mr. PC',
+            slug = 'mr-pc',
+            album=cls.giant_steps
+        )
+
         cls.bass_solo = Solo.objects.create(
             instrument='saxophone',
             artist='Coltrane',
-            track='Mr. PC'
+            track=cls.my_pc,
+            slug = 'coltrane'
         )
     
 
